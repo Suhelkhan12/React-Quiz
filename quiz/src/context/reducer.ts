@@ -11,8 +11,29 @@ export function reducer(
         questions: action.payload,
         status: "ready",
       };
-
+    case "DATA_FAILED":
+      return {
+        ...state,
+        status: "error",
+      };
+    case "QUIZ_START":
+      return {
+        ...state,
+        status: "active",
+      };
+    case "SELECT_ANSWER": {
+      const currQuestion = state.questions[state.index];
+      console.log(currQuestion);
+      return {
+        ...state,
+        answer: action.payload,
+        totalScore:
+          currQuestion && action.payload === currQuestion.correctOption
+            ? state.totalScore + currQuestion.points
+            : state.totalScore,
+      };
+    }
     default:
-      throw new Error("Invalid action type " + action.type);
+      throw new Error("Invalid action type ");
   }
 }

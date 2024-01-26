@@ -15,6 +15,9 @@ export type QuestionType = {
 export type ReducerStateType = {
   questions: QuestionType[];
   status: "loading" | "error" | "ready" | "active" | "finished";
+  index: number;
+  answer: number | null;
+  totalScore: number;
 };
 
 type DataReceivedAction = {
@@ -22,4 +25,23 @@ type DataReceivedAction = {
   payload: QuestionType[];
 };
 
-export type ReducerActionType = DataReceivedAction;
+type DataFailedAction = {
+  type: "DATA_FAILED";
+};
+
+type StartQuizAction = {
+  type: "QUIZ_START";
+};
+
+type SelectAnswerActiion = {
+  type: "SELECT_ANSWER";
+  payload: number;
+};
+
+export type AllActionType =
+  | DataReceivedAction
+  | DataFailedAction
+  | StartQuizAction
+  | SelectAnswerActiion;
+
+export type ReducerActionType = AllActionType;

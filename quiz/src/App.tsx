@@ -3,15 +3,25 @@ import Header from "./components/Header";
 import MainContent from "./components/MainContent";
 import { type ReducerStateType } from "./types";
 import { reducer } from "./context/reducer";
+import Loader from "./components/Loader";
+import Error from "./components/Error";
+import StartScreen from "./components/StartScreen";
+import Question from "./components/Question";
 
 const initialState: ReducerStateType = {
   questions: [],
   status: "loading",
+  index: 0,
+  answer: null,
+  totalScore: 0,
 };
 
-function App() {
-  const [currentState, dispatchFn] = useReducer(reducer, initialState);
-  console.log(currentState);
+const App = () => {
+  const [{ questions, status, index, answer }, dispatchFn] = useReducer(
+    reducer,
+    initialState
+  );
+  const totalQuestions = questions.length;
 
   // IMP fetching questions
   useEffect(() => {
@@ -26,7 +36,9 @@ function App() {
           payload: data,
         });
       } catch (err) {
-        console.log(err);
+        dispatchFn({
+          type: "DATA_FAILED",
+        });
       }
     };
     fetchQuestions();
@@ -36,10 +48,24 @@ function App() {
     <div className="app">
       <Header />
       <MainContent>
-        <p>I'm main content</p>
+        {status === "loading" && <Loader />}
+        {status === "error" && <Error />}
+        {status === "ready" && (
+          <StartScreen
+            totalQuestions={totalQuestions}
+            dispatchFn={dispatchFn}
+          />
+        )}
+        {status === "active" && (
+          <Question
+            question={questions[index]}
+            dispatchFn={dispatchFn}
+            answer={answer}
+          />
+        )}
       </MainContent>
     </div>
   );
-}
+};
 
 export default App;
