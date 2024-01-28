@@ -4,9 +4,10 @@ type QuestionProps = {
   question: QuestionType;
   dispatchFn: React.Dispatch<AllActionType>;
   answer: number | null;
+  index: number;
 };
 
-const Question = ({ question, dispatchFn, answer }: QuestionProps) => {
+const Question = ({ question, dispatchFn, answer, index }: QuestionProps) => {
   const handleAnswerSelection = (index: number) => {
     dispatchFn({
       type: "SELECT_ANSWER",
@@ -17,6 +18,12 @@ const Question = ({ question, dispatchFn, answer }: QuestionProps) => {
   const handleMoveToNextQuestion = () => {
     dispatchFn({
       type: "MOVE_TO_NEXT",
+    });
+  };
+
+  const handleFinsih = () => {
+    dispatchFn({
+      type: "QUIZ_FINISHED",
     });
   };
 
@@ -43,9 +50,14 @@ const Question = ({ question, dispatchFn, answer }: QuestionProps) => {
           </button>
         ))}
       </div>
-      {hasAnswered && (
+      {hasAnswered && index < 14 && (
         <button onClick={handleMoveToNextQuestion} className="btn btn-ui">
           Next
+        </button>
+      )}
+      {hasAnswered && index === 14 && (
+        <button onClick={handleFinsih} className="btn btn-ui">
+          Finish
         </button>
       )}
     </div>

@@ -8,6 +8,7 @@ import Error from "./components/Error";
 import StartScreen from "./components/StartScreen";
 import Question from "./components/Question";
 import Progress from "./components/Progress";
+import FinishedScreen from "./components/FinishedScreen";
 
 const initialState: ReducerStateType = {
   questions: [],
@@ -34,7 +35,6 @@ const App = () => {
       try {
         const response = await fetch("http://localhost:8000/questions");
         const data = await response.json();
-        console.log(data);
 
         dispatchFn({
           type: "DATA_RECEIVED",
@@ -73,8 +73,16 @@ const App = () => {
               question={questions[index]}
               dispatchFn={dispatchFn}
               answer={answer}
+              index={index}
             />
           </>
+        )}
+        {status === "finished" && (
+          <FinishedScreen
+            dispatchFn={dispatchFn}
+            scoredPoints={totalScore}
+            totalPoints={maxPossiblePoints}
+          />
         )}
       </MainContent>
     </div>

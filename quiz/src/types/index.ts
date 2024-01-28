@@ -42,11 +42,26 @@ type MoveToNextQuestion = {
   type: "MOVE_TO_NEXT";
 };
 
+type FinishAction = {
+  type: "QUIZ_FINISHED";
+};
+
+type RestartAction = {
+  type: "RESTART_QUIZ";
+};
+
+type TimerAction = {
+  type: "TICK";
+};
+
 export type AllActionType =
   | DataReceivedAction
   | DataFailedAction
   | StartQuizAction
   | SelectAnswerActiion
-  | MoveToNextQuestion;
+  | MoveToNextQuestion
+  | FinishAction
+  | RestartAction
+  | TimerAction;
 
 export type ReducerActionType = AllActionType;
