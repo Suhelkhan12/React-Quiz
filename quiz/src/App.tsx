@@ -7,6 +7,7 @@ import Loader from "./components/Loader";
 import Error from "./components/Error";
 import StartScreen from "./components/StartScreen";
 import Question from "./components/Question";
+import Progress from "./components/Progress";
 
 const initialState: ReducerStateType = {
   questions: [],
@@ -17,11 +18,15 @@ const initialState: ReducerStateType = {
 };
 
 const App = () => {
-  const [{ questions, status, index, answer }, dispatchFn] = useReducer(
-    reducer,
-    initialState
-  );
+  const [{ questions, status, index, answer, totalScore }, dispatchFn] =
+    useReducer(reducer, initialState);
+
   const totalQuestions = questions.length;
+
+  const maxPossiblePoints = questions.reduce(
+    (prevQue, currQue) => prevQue + currQue.points,
+    0
+  );
 
   // IMP fetching questions
   useEffect(() => {
@@ -57,11 +62,19 @@ const App = () => {
           />
         )}
         {status === "active" && (
-          <Question
-            question={questions[index]}
-            dispatchFn={dispatchFn}
-            answer={answer}
-          />
+          <>
+            <Progress
+              index={index + 1}
+              currentPoints={totalScore}
+              numberQuestion={totalQuestions}
+              totalPoints={maxPossiblePoints}
+            />
+            <Question
+              question={questions[index]}
+              dispatchFn={dispatchFn}
+              answer={answer}
+            />
+          </>
         )}
       </MainContent>
     </div>
