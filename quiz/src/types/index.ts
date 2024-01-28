@@ -38,10 +38,15 @@ type SelectAnswerActiion = {
   payload: number;
 };
 
+type MoveToNextQuestion = {
+  type: "MOVE_TO_NEXT";
+};
+
 export type AllActionType =
   | DataReceivedAction
   | DataFailedAction
   | StartQuizAction
-  | SelectAnswerActiion;
+  | SelectAnswerActiion
+  | MoveToNextQuestion;
 
 export type ReducerActionType = AllActionType;

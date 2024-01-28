@@ -14,6 +14,12 @@ const Question = ({ question, dispatchFn, answer }: QuestionProps) => {
     });
   };
 
+  const handleMoveToNextQuestion = () => {
+    dispatchFn({
+      type: "MOVE_TO_NEXT",
+    });
+  };
+
   const hasAnswered = answer !== null;
 
   return (
@@ -37,6 +43,11 @@ const Question = ({ question, dispatchFn, answer }: QuestionProps) => {
           </button>
         ))}
       </div>
+      {hasAnswered && (
+        <button onClick={handleMoveToNextQuestion} className="btn btn-ui">
+          Next
+        </button>
+      )}
     </div>
   );
 };

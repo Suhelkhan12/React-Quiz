@@ -33,6 +33,13 @@ export function reducer(
             : state.totalScore,
       };
     }
+    case "MOVE_TO_NEXT": {
+      return {
+        ...state,
+        index: state.index + 1,
+        answer: null,
+      };
+    }
     default:
       throw new Error("Invalid action type ");
   }
